@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -10,22 +11,26 @@ public class PlayerMovement : MonoBehaviour
     private bool soundjump = false;
     private Vector2 jump = new Vector2(5f,100f);
     private int num = 4;
+    private int forceNum = 0;
+    private bool maxForce=false;
 
     private GameObject sound;
     private AudioSource soundAudioSource;
-    [SerializeField] private AudioClip runSound, jumpSound;
+    [SerializeField] private AudioClip jumpSound;
 
-    [SerializeField] private float speed = 10f;
+    
+
+    [SerializeField] private Slider forceSlider;
     // Start is called before the first frame update
     void Start()
     {
         rb = gameObject.GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        rb.velocity = new Vector2(speed, 0);
+        
         sound = GameObject.FindGameObjectWithTag("sound");
         soundAudioSource = sound.GetComponent<AudioSource>();
-        soundAudioSource.loop = true;
-        soundAudioSource.clip = runSound;
+        //soundAudioSource.loop = true;
+        //soundAudioSource.clip = runSound;
         
 }
 
@@ -34,41 +39,58 @@ public class PlayerMovement : MonoBehaviour
     {
         if (soundjump)
         {
-            soundAudioSource.Stop();
-            sound.GetComponent<AudioSource>().PlayOneShot(jumpSound);
+            //soundAudioSource.Stop();
+            //sound.GetComponent<AudioSource>().PlayOneShot(jumpSound);
             soundjump = false;
         }
 
-        if (Input.GetMouseButtonDown(0) && isGrounded)
+        if (Input.GetButton("Fire1") && isGrounded)
         {
-            rb.velocity = new Vector2(speed, 9f);
+            
+            forceSlider.value = forceNum; 
+            if(maxForce == false)
+            {
+                forceNum += 1;
+                forceSlider.value = forceNum;
+                if (forceNum == forceSlider.maxValue)
+                {
+                    maxForce = true;
+                }
+            }
+            else
+            {                   
+                forceNum -= 1;
+                forceSlider.value = forceNum;
+                if (forceNum == forceSlider.minValue)
+                {
+                    maxForce = false;
+                }
+            }
+
+
+            
         }
 
-        if (Input.GetMouseButtonDown(0) && !isGrounded)
+        if (Input.GetButtonUp("Fire1"))
         {
-            rb.velocity = new Vector2(speed , -10f);
+            forceNum = forceNum / 10;
+            rb.velocity = new Vector2(forceNum, forceNum);
         }
-
-        GameObject findcam = GameObject.Find("Main Camera");
-        Score findscore = findcam.GetComponent<Score>();
-
-        if (Mathf.RoundToInt(findscore.totalScore) == num)
-        {
-            num += 4;
-            speed += 0.1f;
-            rb.velocity = new Vector2(speed, rb.velocity.y);
-        }
-
         
 
+
+
+
     }
+
+
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if(collision.gameObject.tag == "floor")
         {
             isGrounded = true;
-            soundAudioSource.Play();
+            //soundAudioSource.Play();
             animator.SetBool("isGrounded", true);
 
         }
@@ -78,6 +100,8 @@ public class PlayerMovement : MonoBehaviour
     {
         if (collision.gameObject.tag == "floor")
         {
+            forceNum = 0;
+            forceSlider.value = forceNum;
             isGrounded = false;
             soundjump = true;
             animator.SetBool("isGrounded", false);
