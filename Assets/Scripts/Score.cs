@@ -30,7 +30,6 @@ public class Score : MonoBehaviour
     void Update()
     {
         highScore = PlayerPrefs.GetInt("highScore");
-        totalScore += 4 * Time.deltaTime;
         score.text = (Mathf.RoundToInt(totalScore)).ToString();
         highScoreText.text = highScore.ToString();
 
