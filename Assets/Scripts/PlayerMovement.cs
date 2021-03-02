@@ -10,10 +10,10 @@ public class PlayerMovement : MonoBehaviour
     private bool isGrounded = true;
     private bool soundjump = false;
     private Vector2 jump = new Vector2(5f,100f);
-    private int num = 4;
-    private int forceNum = 0;
+
+    private int forceNum = 30;
     private bool maxForce=false;
-    private int xForce = 3;
+    private int xForce = 6;
 
     private GameObject sound;
     private AudioSource soundAudioSource;
@@ -54,15 +54,19 @@ public class PlayerMovement : MonoBehaviour
                 forceNum += 1;
                 forceSlider.value = forceNum;
                 Debug.Log("amk");
+                Debug.Log(maxForce + "1");
                 if (forceNum == forceSlider.maxValue)
                 {
                     maxForce = true;
+                    Debug.Log(maxForce + "2");
                 }
             }
             else
             {                   
                 forceNum -= 1;
                 forceSlider.value = forceNum;
+                Debug.Log("aq");
+                Debug.Log(maxForce + "3");
                 if (forceNum == forceSlider.minValue)
                 {
                     maxForce = false;
@@ -76,7 +80,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetButtonUp("Fire1"))
         {
             Debug.Log("GetButtonUp Çalýþtý");
-            forceNum = forceNum / 10;
+            forceNum = forceNum / 5;
             rb.velocity = new Vector2(xForce, forceNum);
         }
         
@@ -107,6 +111,7 @@ public class PlayerMovement : MonoBehaviour
 
             forceNum = 0;
             forceSlider.value = forceNum;
+            maxForce = false;
             isGrounded = false;
             Debug.Log("Not Grounded");
             soundjump = true;
