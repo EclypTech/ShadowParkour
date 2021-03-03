@@ -18,9 +18,9 @@ public class PlayerMovement : MonoBehaviour
     private GameObject sound;
     private AudioSource soundAudioSource;
     [SerializeField] private AudioClip jumpSound;
-
+    public Vector3 vector = new Vector3();
+    private Button jumpButton;
     
-
     [SerializeField] private Slider forceSlider;
     // Start is called before the first frame update
     void Start()
@@ -32,6 +32,7 @@ public class PlayerMovement : MonoBehaviour
         soundAudioSource = sound.GetComponent<AudioSource>();
         //soundAudioSource.loop = true;
         //soundAudioSource.clip = runSound;
+        animator.SetBool("isGrounded", true);
         
 }
 
@@ -41,32 +42,28 @@ public class PlayerMovement : MonoBehaviour
         if (soundjump)
         {
             //soundAudioSource.Stop();
-            //sound.GetComponent<AudioSource>().PlayOneShot(jumpSound);
+            
             soundjump = false;
         }
 
         if (Input.GetButton("Fire1") && isGrounded)
         {
-            Debug.Log("Fire1 çalýþtý");
+            
             forceSlider.value = forceNum; 
             if(maxForce == false)
             {
                 forceNum += 1;
                 forceSlider.value = forceNum;
-                Debug.Log("amk");
-                Debug.Log(maxForce + "1");
                 if (forceNum == forceSlider.maxValue)
                 {
                     maxForce = true;
-                    Debug.Log(maxForce + "2");
+
                 }
             }
             else
             {                   
                 forceNum -= 1;
                 forceSlider.value = forceNum;
-                Debug.Log("aq");
-                Debug.Log(maxForce + "3");
                 if (forceNum == forceSlider.minValue)
                 {
                     maxForce = false;
@@ -74,30 +71,29 @@ public class PlayerMovement : MonoBehaviour
             }
 
 
-            
+
         }
-
-        if (Input.GetButtonUp("Fire1"))
-        {
-            Debug.Log("GetButtonUp Çalýþtý");
-            forceNum = forceNum / 5;
-            rb.velocity = new Vector2(xForce, forceNum);
-        }
-        
-
-
-
 
     }
 
 
+    public void JumpExit()
+    {
+        if (isGrounded)
+        {
+            forceNum = forceNum / 5;
+            rb.velocity = new Vector2(xForce, forceNum);
+            isGrounded = false;
+        }
+        
+    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if(collision.gameObject.tag == "floor")
         {
             isGrounded = true;
-            Debug.Log("Grounded");
+            
             //soundAudioSource.Play();
             animator.SetBool("isGrounded", true);
 
@@ -108,13 +104,12 @@ public class PlayerMovement : MonoBehaviour
     {
         if (collision.gameObject.tag == "floor")
         {
-
-            forceNum = 0;
+            isGrounded = false;
+            forceNum = 20;
             forceSlider.value = forceNum;
             maxForce = false;
-            isGrounded = false;
-            Debug.Log("Not Grounded");
             soundjump = true;
+            sound.GetComponent<AudioSource>().PlayOneShot(jumpSound);
             animator.SetBool("isGrounded", false);
         }
     }

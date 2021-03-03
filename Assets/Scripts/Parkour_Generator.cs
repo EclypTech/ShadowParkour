@@ -41,7 +41,7 @@ public class Parkour_Generator : MonoBehaviour
 
         GameObject findcam = GameObject.Find("Main Camera");
         RandomObj = Random.Range(0, 1);
-        SpawnPos.y = Random.Range(-3.5f, -6f);
+        SpawnPos.y = Random.Range(-1.5f, -6f);
         SpawnPos.x += 5;
         SpawnPos.z = -1;
         Instantiate(SpawnObjects[RandomObj], SpawnPos, Quaternion.identity);

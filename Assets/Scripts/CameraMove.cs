@@ -12,7 +12,7 @@ public class CameraMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (target.position.x + 4 > transform.position.x) // If players position gonna bigger then the camera..
+        if (target.position.x + 4 > transform.position.x-10) // If players position gonna bigger then the camera..
         {
             Vector3 newPos = new Vector3(target.position.x + 4, transform.position.y, transform.position.z);  // Get new position to the camera to the target.
             transform.position = newPos;

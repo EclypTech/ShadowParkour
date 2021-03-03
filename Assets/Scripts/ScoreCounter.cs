@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ScoreCounter : MonoBehaviour
 {
+
     // Start is called before the first frame update
     void Start()
     {
@@ -20,13 +21,14 @@ public class ScoreCounter : MonoBehaviour
     {
         if (collision.transform.tag == "Player")               // If triggered collision tag is Player..
         {
-            Debug.Log("triggered");
+           
 
             GameObject findcam = GameObject.Find("Main Camera");
             Score findscore = findcam.GetComponent<Score>();
             findscore.totalScore += 1;
 
             gameObject.GetComponent<BoxCollider2D>().enabled = false;
+            collision.gameObject.GetComponent<PlayerMovement>().vector = gameObject.transform.position;
 
 
             //collision.GetComponent<Score>().totalScore += 1;    // Add 1 point to the score which located Generator.cs

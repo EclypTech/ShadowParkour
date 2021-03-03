@@ -14,7 +14,7 @@ public class EnemyInteraction : MonoBehaviour
         if (collision.gameObject.tag == "enemy")
         {
             Time.timeScale = 0;
-            Destroy(collision.gameObject);
+            
             (Instantiate(GameOverPanel, new Vector3(0f, 0f, 0f), Quaternion.identity) as GameObject).transform.SetParent(GamePlayCanvas.transform);
         }
     }

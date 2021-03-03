@@ -8,8 +8,8 @@ public class GameOver : MonoBehaviour
 {
 
     [SerializeField] private Text overScore, overHighScore;
-    private GameObject score, highScore;
-
+    private GameObject score, highScore,player;
+    
     private int countCheck;
 
     [SerializeField] private GameObject mainCamera;
@@ -34,6 +34,7 @@ public class GameOver : MonoBehaviour
             VideoButton.SetActive(false);
         }
 
+        player = GameObject.FindGameObjectWithTag("Player");
         sound = GameObject.FindGameObjectWithTag("sound");
         soundAudioSource = sound.GetComponent<AudioSource>();
         music = GameObject.FindGameObjectWithTag("music");
@@ -78,6 +79,11 @@ public class GameOver : MonoBehaviour
 
     public void OneChance()
     {
+        var lastPos = player.GetComponent<PlayerMovement>().vector;
+        var x = lastPos.x;
+        var y = lastPos.y + 5 ;
+        var z = lastPos.z;
+        player.transform.position = new Vector3(x, y, z);
         Destroy(GameCanvas);
         Time.timeScale = 1;
     }
