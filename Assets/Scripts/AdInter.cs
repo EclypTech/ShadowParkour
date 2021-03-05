@@ -19,7 +19,7 @@ public class AdInter : MonoBehaviour
     private void RequestInterstitial()
     {
 #if UNITY_ANDROID
-        string adUnitId = "ca-app-pub-3940256099942544/1033173712";
+        string adUnitId = "ca-app-pub-3693789240473561/9889750506";
 #elif UNITY_IPHONE
         string adUnitId = "ca-app-pub-3940256099942544/1033173712";
 #else
