@@ -240,7 +240,7 @@ PlayerSettings:
   AndroidTargetArchitectures: 3
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: C:/Users/ayber/Desktop/Shadow Parkour/Apk/ShadowParkour_key.keystore
+  AndroidKeystoreName: "C:/Users/ayber/Desktop/Oyun Proje Dosyalar\u0131/Shadow Parkour/Apk/ShadowParkour_key.keystore"
   AndroidKeyaliasName: shadowparkour_key
   AndroidBuildApkPerCpuArchitecture: 0
   AndroidTVCompatibility: 0
